@@ -1,72 +1,76 @@
-
 contacts = []
+key = 1
 
 def add_contact():
-
-    key = input("Введите ключ контакта: ")
-    name = input("Введите имя контакта: ")
-    email = input("Введите адрес электронной почты контакта: ")
-    phone = input("Введите номер телефона контакта: ")
-    birthday = input("Введите день рождения контакта (формат ГГГГ-ММ-ДД): ")
-    note = input("Введите заметку о контакте: ")
-
-    
-    new_contact = {"key": key, "name": name, "email": email, "phone": phone, "birthday": birthday, "note": note}
-
-
+    global key
+    name = input("Введите имя: ")
+    email = input("Введите адрес электронной почты: ")
+    phone = input("Введите номер телефона: ")
+    new_contact = {"key": key, "name": name, "email": email, "phone": phone}
     contacts.append(new_contact)
+    print("Контакт успешно добавлен. Ключ контакта:", key)
+    key += 1
 
-
-def search_contact():
-
-    key_to_search = input("Введите ключ контакта, который нужно найти: ")
-
-  
+def edit_contact():
+    contact_key = int(input("Введите ключ контакта для редактирования: "))
     for contact in contacts:
-        if contact["key"] == key_to_search:
-            return contact
-
-  
-    return None
-
-
-def list_contacts():
-
-    for contact in contacts:
-        print_contact(contact)
-
-
-def print_contact(contact):
-    print("Ключ:", contact["key"])
-    print("Имя:", contact["name"])
-    print("Почта:", contact["email"])
-    print("Номер телефона:", contact["phone"])
-    print("День рождения:", contact["birthday"])
-    print("Заметка:", contact["note"])
-
-
-def show_menu():
-    print("nМеню:")
-    print("1. Добавить контакт")
-    print("2. Редактировать контакт")
-    print("3. Удалить контакт")
-    print("4. Поиск контакта")
-    print("5. Вывести список контактов")
-    print("6. Выход")
+        if contact["key"] == contact_key:
+            print("Контакт найден.")
+            print("Выберите данные для редактирования:")
+            print("1. Имя")
+            print("2. Адрес электронной почты")
+            print("3. Номер телефона")
+            choice = input("Введите соответствующую цифру: ")
+            if choice == "1":
+                new_name = input("Введите новое имя: ")
+                contact["name"] = new_name
+            elif choice == "2":
+                new_email = input("Введите новый адрес электронной почты: ")
+                contact["email"] = new_email
+            elif choice == "3":
+                new_phone = input("Введите новый номер телефона: ")
+                contact["phone"] = new_phone
+            print("Контакт успешно отредактирован.")
+            return
+    print("Контакт не найден.")
 
 def delete_contact():
-    print('hi')
-def edit_contact():
-    print('hi')
+    contact_key = int(input("Введите ключ контакта для удаления: "))
+    for contact in contacts:
+        if contact["key"] == contact_key:
+            contacts.remove(contact)
+            print("Контакт успешно удален.")
+            return
+    print("Контакт не найден.")
 
+def search_contact():
+    contact_key = int(input("Введите ключ контакта для поиска: "))
+    for contact in contacts:
+        if contact["key"] == contact_key:
+            print(f"Имя: {contact['name']}, Электронная почта: {contact['email']}, Телефон: {contact['phone']}")
+            return
+    print("Контакт не найден.")
+
+def display_contacts():
+    if len(contacts) == 0:
+        print("Список контактов пуст.")
+    else:
+        print("Список контактов:")
+        for contact in contacts:
+            print(f"Ключ: {contact['key']}, Имя: {contact['name']}, Электронная почта: {contact['email']}, Телефон: {contact['phone']}")
+
+# Меню действий
 while True:
-    
-    show_menu()
+    print("\nМеню:")
+    print("1. Добавить контакт")
+    print("2. Отредактировать контакт")
+    print("3. Удалить контакт")
+    print("4. Найти контакт")
+    print("5. Отобразить все контакты")
+    print("6. Выйти")
 
+    choice = input("Выберите действие (введите соответствующую цифру): ")
 
-    choice = input("Введите номер пункта меню: ")
-
-   
     if choice == "1":
         add_contact()
     elif choice == "2":
@@ -76,8 +80,10 @@ while True:
     elif choice == "4":
         search_contact()
     elif choice == "5":
-        list_contacts()
+        display_contacts()
     elif choice == "6":
+        print("Выход из программы.")
         break
     else:
-        print("Неверный выбор.")
+        print("Некорректный выбор. Пожалуйста, выберите действие из меню.")
+    
